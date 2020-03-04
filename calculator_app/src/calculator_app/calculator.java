@@ -9,6 +9,8 @@ import javax.swing.border.EmptyBorder;
 import java.awt.Window.Type;
 import javax.swing.JTextField;
 import java.awt.Font;
+import java.awt.Label;
+
 import javax.swing.SwingConstants;
 import javax.swing.JRadioButton;
 import javax.swing.AbstractButton;
@@ -17,6 +19,8 @@ import javax.swing.JButton;
 import javax.swing.JRadioButtonMenuItem;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JLabel;
+import java.awt.Color;
 
 public class calculator extends JFrame {
 
@@ -38,15 +42,42 @@ public class calculator extends JFrame {
 			}
 		});
 	}
+	double num,ans;
+	int calculation;
 
 	/**
 	 * Create the frame.
 	 */
+	public void arithmetic_operation()
+	{ 
+		switch(calculation)
+		{
+		case 1:  //Addition
+			ans=num + Double.parseDouble(textField.getText());
+			textField.setText(Double.toString(ans));
+			break;
+			
+		case 2:  //Subtraction
+			ans=num - Double.parseDouble(textField.getText());
+			textField.setText(Double.toString(ans));
+			break;
+			
+		case 3:  //Multiplication
+			ans=num * Double.parseDouble(textField.getText());
+			textField.setText(Double.toString(ans));
+			break;
+			
+		case 4:  //Division
+			ans=num / Double.parseDouble(textField.getText());
+			textField.setText(Double.toString(ans));
+			break;
+		}
+	}
 	public calculator() {
 		setType(Type.UTILITY);
 		setTitle("Calculator");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 244, 339);
+		setBounds(100, 100, 269, 339);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -60,6 +91,8 @@ public class calculator extends JFrame {
 		contentPane.add(textField);
 		textField.setColumns(10);
 		
+	
+		
 		
 		JRadioButton onButton = new JRadioButton("ON");
 		onButton.setFont(new Font("Tahoma", Font.BOLD, 11));
@@ -72,6 +105,22 @@ public class calculator extends JFrame {
 		contentPane.add(offButton);
 		
 		JButton btnNewButton = new JButton("<--");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int length = textField.getText().length();
+				int number = textField.getText().length() -1;
+				String store;
+				
+				if(length > 0)
+				{
+					StringBuilder back= new StringBuilder(textField.getText());
+					back.deleteCharAt(number);
+					store=back.toString();
+					textField.setText(store);
+				}
+				
+			}
+		});
 		btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 11));
 		btnNewButton.setBounds(61, 42, 56, 39);
 		contentPane.add(btnNewButton);
@@ -89,7 +138,11 @@ public class calculator extends JFrame {
 		JButton btnNewButton_1_1 = new JButton("+");
 		btnNewButton_1_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				textField.setText(textField.getText() + "+");
+				num = Double.parseDouble(textField.getText());
+				calculation =1;
+				textField.setText("");
+				
+				
 			}
 		});
 		btnNewButton_1_1.setFont(new Font("Tahoma", Font.BOLD, 11));
@@ -129,7 +182,9 @@ public class calculator extends JFrame {
 		JButton btnNewButton_1_5 = new JButton("-");
 		btnNewButton_1_5.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				textField.setText(textField.getText() + "-");
+				num = Double.parseDouble(textField.getText());
+				calculation =2;
+				textField.setText("");
 			}
 		});
 		btnNewButton_1_5.setFont(new Font("Tahoma", Font.BOLD, 11));
@@ -169,7 +224,9 @@ public class calculator extends JFrame {
 		JButton btnNewButton_1_9 = new JButton("*");
 		btnNewButton_1_9.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				textField.setText(textField.getText() + "*");
+				num = Double.parseDouble(textField.getText());
+				calculation =3;
+				textField.setText("");
 			}
 		});
 		btnNewButton_1_9.setFont(new Font("Tahoma", Font.BOLD, 11));
@@ -209,7 +266,9 @@ public class calculator extends JFrame {
 		JButton btnNewButton_1_13 = new JButton("/");
 		btnNewButton_1_13.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				textField.setText(textField.getText() + "/");
+				num = Double.parseDouble(textField.getText());
+				calculation =4;
+				textField.setText("");
 			}
 		});
 		btnNewButton_1_13.setFont(new Font("Tahoma", Font.BOLD, 11));
@@ -239,11 +298,18 @@ public class calculator extends JFrame {
 		JButton btnNewButton_1_16 = new JButton("=");
 		btnNewButton_1_16.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				textField.setText(textField.getText() + "=");
+				arithmetic_operation();
+				
 			}
 		});
 		btnNewButton_1_16.setFont(new Font("Tahoma", Font.BOLD, 11));
 		btnNewButton_1_16.setBounds(116, 244, 100, 39);
 		contentPane.add(btnNewButton_1_16);
+		
+		JLabel label = new JLabel("1+");
+		label.setHorizontalAlignment(SwingConstants.RIGHT);
+		label.setForeground(Color.RED);
+		label.setBounds(171, 0, 46, 14);
+		contentPane.add(label);
 	}
 }
